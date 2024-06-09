@@ -7,10 +7,10 @@ export class TaskService {
   private tasks = signal<Task[]>([]);
 
   constructor() {
-    const tasks = localStorage.getItem('tasks');
+    const tasks = signal(localStorage.getItem('tasks'));
 
-    if (tasks) {
-      this.tasks.set(JSON.parse(tasks));
+    if (tasks()) {
+      this.tasks.set(JSON.parse(tasks()!));
     }
   }
 
@@ -34,6 +34,6 @@ export class TaskService {
   }
 
   private saveTasks() {
-    localStorage.setItem('tasks', JSON.stringify(this.tasks));
+    localStorage.setItem('tasks', JSON.stringify(this.tasks()));
   }
 }
